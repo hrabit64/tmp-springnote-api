@@ -15,9 +15,12 @@ import lombok.*;
 public class User {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-    @Column(name = "user_pk", nullable = false)
-    private Long id;
+    @Column(name = "user_pk", nullable = false, length = 28)
+    private String id;
 
     @Column(name="user_is_admin", nullable = false)
     private Boolean isAdmin;
+
+    @Column(name="user_nm", nullable = false, length = 10)
+    private String name;
 }

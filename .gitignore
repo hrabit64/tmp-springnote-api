@@ -35,3 +35,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+application-local.properties
+application-test.properties
+application-product.properties
+firebase.json
