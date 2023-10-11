@@ -12,7 +12,9 @@ import lombok.*;
 @Builder
 @Entity(name = "series")
 public class Series {
+
     @Id
+    @Column(name = "series_pk", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
