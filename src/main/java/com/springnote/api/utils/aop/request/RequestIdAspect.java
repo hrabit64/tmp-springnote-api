@@ -30,7 +30,7 @@ public class RequestIdAspect {
 
     private final RequestIdContext requestIdContext;
 
-    @Pointcut("execution(* com.springnote.api.web.controller.*.*(..))")
+    @Pointcut("within(org.springframework.web.bind.annotation.RestController)")
     public void targetControllerMethods() {
     }
 

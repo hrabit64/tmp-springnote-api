@@ -3,10 +3,12 @@ package com.springnote.api.utils.aop.auth;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.springnote.api.dto.user.common.UserResponseDto;
+import com.springnote.api.service.FirebaseService;
 import com.springnote.api.service.UserService;
 import com.springnote.api.utils.context.UserContext;
 import com.springnote.api.utils.exception.auth.AuthErrorCode;
 import com.springnote.api.utils.exception.auth.AuthException;
+import com.springnote.api.utils.exception.service.ServiceErrorCode;
 import com.springnote.api.utils.exception.service.ServiceException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +28,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Component
 public class AuthAspect {
 
-    private final FirebaseAuth firebaseAuth;
-    private final UserService userService;
+    private final FirebaseService firebaseService;
     private final UserContext userContext;
 
     @Before("@annotation(enableAuth)")
@@ -39,9 +40,9 @@ public class AuthAspect {
 
         var token = getToken(request);
 
-        var uid = authenticate(token);
+        var user = authenticate(token);
 
-        var user = checkUserRole(uid, enableAuth.authLevel());
+        checkUserRole(user.isAdmin(), enableAuth.authLevel());
 
         userContext.setUser(user);
     }
@@ -64,31 +65,26 @@ public class AuthAspect {
         return tokenHeader.substring(7);
     }
 
-    private String authenticate(String token) {
+    private UserResponseDto authenticate(String token) {
         try {
-            var firebaseToken = firebaseAuth.verifyIdToken(token, true);
-            return firebaseToken.getUid();
-        } catch (FirebaseAuthException e) {
-            throw new AuthException(AuthErrorCode.AUTH_FAIL, "해당 토큰 검증에 실패했습니다. 올바른 토큰인지 다시 확인하세요.");
+            return firebaseService.findUserByToken(token);
+        } catch (ServiceException e) {
+            if (e.getErrorCode() == ServiceErrorCode.NOT_FOUND) {
+                throw new AuthException(AuthErrorCode.AUTH_FAIL, "인증 토큰에 실패했습니다. 만료되었거나 유효하지 않은 토큰입니다.");
+            } else {
+                throw new AuthException(AuthErrorCode.UNKNOWN_ERROR, "알 수 없는 오류가 발생했습니다. 다시 시도해주세요.");
+            }
         } catch (Exception e) {
             throw new AuthException(AuthErrorCode.UNKNOWN_ERROR, "알 수 없는 오류가 발생했습니다. 다시 시도해주세요.");
         }
     }
 
-    private UserResponseDto checkUserRole(String uid, AuthLevel authLevel) {
-        UserResponseDto user;
-        try {
-            user = userService.findUserById(uid);
-        } catch (ServiceException e) {
-            throw new AuthException(AuthErrorCode.NOT_FOUND, "해당 유저를 찾을 수 없습니다.");
-        }
+    private void checkUserRole(boolean isAdmin, AuthLevel authLevel) {
 
         if (authLevel == AuthLevel.ADMIN) {
-            if (!user.isAdmin())
+            if (!isAdmin)
                 throw new AuthException(AuthErrorCode.AUTH_FAIL, "해당 API에 접근할 권한이 없습니다.");
         }
-
-        return user;
 
     }
 }
