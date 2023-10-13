@@ -1,6 +1,6 @@
 package com.springnote.api.service;
 
-import com.springnote.api.domain.user.UserRepository;
+import com.springnote.api.domain.jpa.user.UserRepository;
 import com.springnote.api.dto.user.common.UserResponseDto;
 import com.springnote.api.utils.exception.service.ServiceErrorCode;
 import com.springnote.api.utils.exception.service.ServiceException;

@@ -2,7 +2,7 @@ package com.springnote.api.dto.post.common;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.springnote.api.domain.post.Post;
+import com.springnote.api.domain.jpa.post.Post;
 import com.springnote.api.dto.series.common.SeriesResponseDto;
 import lombok.*;
 

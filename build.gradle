@@ -57,6 +57,9 @@ dependencies {
     testImplementation 'org.junit.vintage:junit-vintage-engine'
     testImplementation 'org.mockito:mockito-core'
     testImplementation 'org.mockito:mockito-junit-jupiter'
+
+    //elastic search
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 }
 
 tasks.named('test') {

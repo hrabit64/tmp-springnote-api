@@ -1,14 +1,13 @@
 package com.springnote.api.service;
 
-import com.springnote.api.domain.jpa.post.PostRepository;
+import com.springnote.api.domain.jpa.image.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-
 @RequiredArgsConstructor
 @Service
-public class PostService {
+public class ImageService {
 
-    private final PostRepository postRepository;
+    private final ImageRepository imageRepository;
 
 }
