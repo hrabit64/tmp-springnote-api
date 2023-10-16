@@ -33,4 +33,16 @@ public class FirebaseService {
         var tokenInfo = decodeToken(token);
         return userService.findUserById(tokenInfo.getUid());
     }
+
+    @Transactional
+    public int deleteFirebaseUserWithToken(String token){
+        //TODO
+        return 0;
+    }
+
+    @Transactional
+    public int deleteFirebaseUserWithUid(String uid){
+        //TODO
+        return 0;
+    }
 }

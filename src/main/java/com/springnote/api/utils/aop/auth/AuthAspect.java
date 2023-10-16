@@ -56,10 +56,10 @@ public class AuthAspect {
     private String getToken(HttpServletRequest request) {
         var tokenHeader = request.getHeader("Authorization");
 
-        if (tokenHeader == null) //TODO : throw auth exception
+        if (tokenHeader == null)
             throw new AuthException(AuthErrorCode.NOT_FOUND, "인증 토큰을 찾을 수 없습니다.");
 
-        if (!tokenHeader.startsWith("Bearer "))   //TODO : throw auth exception
+        if (!tokenHeader.startsWith("Bearer "))
             throw new AuthException(AuthErrorCode.NOT_FOUND, "인증 토큰의 형식이 올바르지 않습니다. Bearer 토큰 형식인지 다시 확인하세요.");
 
         return tokenHeader.substring(7);

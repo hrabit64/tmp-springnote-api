@@ -6,15 +6,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.*;
 
+@EqualsAndHashCode
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity(name = "user")
+@Entity(name = "user_info")
 public class User {
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     @Column(name = "user_pk", nullable = false, length = 28)
     private String id;
 
@@ -23,4 +23,8 @@ public class User {
 
     @Column(name="user_nm", nullable = false, length = 10)
     private String name;
+
+    public void update(User newUser){
+        this.name = newUser.getName();
+    }
 }

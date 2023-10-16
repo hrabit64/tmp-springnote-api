@@ -15,20 +15,27 @@ import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 
-@Configuration
-@EnableElasticsearchRepositories(basePackages = "com.springnote.api.domain.elasticsearch")
-public class ElasticsearchConfig extends ElasticsearchConfiguration  {
-
-    @Value("${spring.elasticsearch.rest.uris}")
-    private String connectionUrl;
-
-    @Nonnull
-    @Override
-    public ClientConfiguration clientConfiguration() {
-        return ClientConfiguration.builder()
-                .connectedTo(connectionUrl)
-                .withBasicAuth("elastic", "test1234")
-                .build();
-    }
-
-}
+//@Configuration
+//@EnableElasticsearchRepositories(basePackages = "com.springnote.api.domain.elasticsearch")
+//public class ElasticsearchConfig extends ElasticsearchConfiguration  {
+//
+//    @Value("${spring.data.elasticsearch.cluster-nodes}")
+//    private String connectionUrl;
+//
+//
+//    @Value("${spring.data.elasticsearch.cluster-nodes}")
+//    private String username;
+//
+//    @Value("${spring.data.elasticsearch.cluster-nodes}")
+//    private String password;
+//
+//    @Nonnull
+//    @Override
+//    public ClientConfiguration clientConfiguration() {
+//        return ClientConfiguration.builder()
+//                .connectedTo(connectionUrl)
+//                .withBasicAuth("elastic", "test1234")
+//                .build();
+//    }
+//
+//}
