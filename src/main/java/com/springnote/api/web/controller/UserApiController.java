@@ -4,15 +4,13 @@ import com.springnote.api.dto.user.common.UserResponseDto;
 import com.springnote.api.dto.user.controller.UserRegisterRequestControllerDto;
 import com.springnote.api.dto.user.controller.UserUpdateRequestControllerDto;
 import com.springnote.api.service.FirebaseService;
-import com.springnote.api.service.PostService;
 import com.springnote.api.service.UserService;
 import com.springnote.api.utils.aop.auth.AuthLevel;
 import com.springnote.api.utils.aop.auth.EnableAuth;
 import com.springnote.api.utils.context.UserContext;
-import com.springnote.api.utils.dtoModelAssembler.UserResponseDtoAssembler;
+import com.springnote.api.utils.modelAssembler.UserResponseDtoAssembler;
 import com.springnote.api.utils.exception.auth.AuthErrorCode;
 import com.springnote.api.utils.exception.auth.AuthException;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.EntityModel;
@@ -20,8 +18,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+@Validated
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -64,6 +62,7 @@ public class UserApiController {
         else
             throw new AuthException(AuthErrorCode.AUTH_FAIL, "권한이 없습니다.");
     }
+
     @EnableAuth(authLevel = AuthLevel.USER)
     @PutMapping("/{userId}")
     public EntityModel<UserResponseDto> updateUser(@PathVariable String userId, @Validated @RequestBody UserUpdateRequestControllerDto dto) {

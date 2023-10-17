@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 public class PostApiController {
 
     private final PostService postService;
-    private final UserContext userContext;
 
     //일반적인 다중조회, 본문 검색을 제외한 모든 경우
     @GetMapping("")

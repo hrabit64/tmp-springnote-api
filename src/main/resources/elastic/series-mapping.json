@@ -1,0 +1,15 @@
+{
+  "properties": {
+    "id": {
+      "type": "keyword"
+    },
+    "title": {
+      "type": "text",
+      "analyzer": "korean"
+    },
+    "description": {
+      "type": "text",
+      "analyzer": "korean"
+    }
+  }
+}

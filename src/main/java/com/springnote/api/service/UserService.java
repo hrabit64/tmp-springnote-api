@@ -18,14 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     private final UserRepository userRepository;
 
-    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+    @Transactional(readOnly = true)
     public UserResponseDto findUserById(String id) {
         return userRepository.findById(id)
                 .map(UserResponseDto::new)
                 .orElseThrow(() -> new ServiceException(ServiceErrorCode.NOT_FOUND, "해당 유저를 찾을 수 없습니다."));
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional
     public UserResponseDto createUser(UserCreateRequestServiceDto dto) {
 
         var newUser = dto.toEntity();
@@ -36,7 +36,7 @@ public class UserService {
         return new UserResponseDto(savedUser);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional
     public UserResponseDto updateUser(UserUpdateRequestServiceDto dto) {
         var updateUser = dto.toEntity();
 
@@ -52,7 +52,7 @@ public class UserService {
         return new UserResponseDto(savedUser);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional
     public UserResponseDto deleteUser(String uid) {
 
         var targetUser = userRepository.findById(uid)
@@ -63,7 +63,7 @@ public class UserService {
         return new UserResponseDto(targetUser);
     }
 
-    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+    @Transactional(readOnly = true)
     public void checkNameExist(String name) {
         if (userRepository.existsUserByName(name)) {
             throw new ServiceException(ServiceErrorCode.ALREADY_EXIST, "이미 존재하는 이름입니다.");

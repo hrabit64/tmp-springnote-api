@@ -1,6 +1,9 @@
 package com.springnote.api.web.advice;
 
 import com.springnote.api.dto.general.common.ExceptionResponseDto;
+import com.springnote.api.utils.exception.auth.AuthException;
+import com.springnote.api.utils.exception.controller.ControllerException;
+import com.springnote.api.utils.exception.service.ServiceException;
 import com.springnote.api.utils.time.TimeUtility;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
@@ -28,10 +31,9 @@ public class GlobalExceptionHandler {
 
     private final TimeUtility timeUtility;
 
-    @ExceptionHandler({ HttpMediaTypeNotSupportedException.class })
+    @ExceptionHandler({HttpMediaTypeNotSupportedException.class})
     protected ResponseEntity<ExceptionResponseDto> handleHttpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException exception, WebRequest request) {
-        log.info("UID = ({}) Request = ({}) Raise = ({})",
-                request.getHeader("user_uid"),
+        log.info("[Error] Request = ({}) Raise = ({})",
                 request.getContextPath(),
                 "HttpMediaTypeNotSupportedException");
         return ResponseEntity
@@ -48,11 +50,73 @@ public class GlobalExceptionHandler {
                 );
     }
 
-    @ExceptionHandler({ HttpRequestMethodNotSupportedException.class })
+    @ExceptionHandler(ServiceException.class)
+    protected ResponseEntity<ExceptionResponseDto> handleServiceException(ServiceException exception, WebRequest request) {
+        log.info("[Error] Request = ({}) Raise = ({})",
+                request.getContextPath(),
+                exception.getErrorCode().getErrorCode()
+        );
+        return ResponseEntity
+                .status(exception.getErrorCode().getHttpStatus())
+                .body(
+                        ExceptionResponseDto
+                                .builder()
+                                .code(exception.getErrorCode().getErrorCode())
+                                .message(exception.getMessage())
+                                .status(exception.getErrorCode().getHttpStatus())
+                                .timestamp(timeUtility.nowDateTime())
+                                .path(request.getContextPath())
+                                .build()
+                );
+
+    }
+
+    @ExceptionHandler(AuthException.class)
+    protected ResponseEntity<ExceptionResponseDto> handleAuthException(AuthException exception, WebRequest request) {
+        log.info("[Error] Request = ({}) Raise = ({})",
+                request.getContextPath(),
+                exception.getErrorCode().getErrorCode()
+        );
+        return ResponseEntity
+                .status(exception.getErrorCode().getHttpStatus())
+                .body(
+                        ExceptionResponseDto
+                                .builder()
+                                .code(exception.getErrorCode().getErrorCode())
+                                .message(exception.getMessage())
+                                .status(exception.getErrorCode().getHttpStatus())
+                                .timestamp(timeUtility.nowDateTime())
+                                .path(request.getContextPath())
+                                .build()
+                );
+
+    }
+
+    @ExceptionHandler(ControllerException.class)
+    protected ResponseEntity<ExceptionResponseDto> handleControllerException(ControllerException exception, WebRequest request) {
+        log.info("[Error] Request = ({}) Raise = ({})",
+                request.getContextPath(),
+                exception.getErrorCode().getErrorCode()
+        );
+        return ResponseEntity
+                .status(exception.getErrorCode().getHttpStatus())
+                .body(
+                        ExceptionResponseDto
+                                .builder()
+                                .code(exception.getErrorCode().getErrorCode())
+                                .message(exception.getMessage())
+                                .status(exception.getErrorCode().getHttpStatus())
+                                .timestamp(timeUtility.nowDateTime())
+                                .path(request.getContextPath())
+                                .build()
+                );
+
+    }
+
+    @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
     protected ResponseEntity<ExceptionResponseDto> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException exception, WebRequest request) {
 
-        log.info("UID = ({}) Request = ({}) Raise = ({})",
-                request.getHeader("user_uid"),
+        log.info("[Error] Request = ({}) Raise = ({})",
                 request.getContextPath(),
                 "NOT_FOUND"
         );
@@ -67,11 +131,11 @@ public class GlobalExceptionHandler {
                         .build()
         );
     }
-    @ExceptionHandler({ IllegalArgumentException.class })
+
+    @ExceptionHandler({IllegalArgumentException.class})
     protected ResponseEntity<ExceptionResponseDto> handleIllegalArgumentException(IllegalArgumentException exception, WebRequest request) {
 
-        log.info("UID = ({}) Request = ({}) Raise = ({})",
-                request.getHeader("user_uid"),
+        log.info("[Error] Request = ({}) Raise = ({})",
                 request.getContextPath(),
                 "IllegalArgumentException"
         );
@@ -88,11 +152,10 @@ public class GlobalExceptionHandler {
 
     }
 
-    @ExceptionHandler({ DataIntegrityViolationException.class })
+    @ExceptionHandler({DataIntegrityViolationException.class})
     protected ResponseEntity<ExceptionResponseDto> handleIllegalArgumentException(DataIntegrityViolationException exception, WebRequest request) {
 
-        log.info("UID = ({}) Request = ({}) Raise = ({})",
-                request.getHeader("user_uid"),
+        log.info("[Error] Request = ({}) Raise = ({})",
                 request.getContextPath(),
                 "DataIntegrityViolationException"
         );
@@ -108,11 +171,10 @@ public class GlobalExceptionHandler {
         );
     }
 
-    @ExceptionHandler({ DuplicateKeyException.class })
+    @ExceptionHandler({DuplicateKeyException.class})
     protected ResponseEntity<ExceptionResponseDto> handleDuplicateKeyException(DuplicateKeyException exception, WebRequest request) {
 
-        log.info("UID = ({}) Request = ({}) Raise = ({})",
-                request.getHeader("user_uid"),
+        log.info("[Error] Request = ({}) Raise = ({})",
                 request.getContextPath(),
                 "DuplicateKeyException"
         );
@@ -129,15 +191,15 @@ public class GlobalExceptionHandler {
         );
     }
 
-    @ExceptionHandler({ Exception.class })
+    @ExceptionHandler({Exception.class})
     protected ResponseEntity<ExceptionResponseDto> handleServerException(Exception exception, WebRequest request) {
 
-        log.info("UID = ({}) Request = ({}) Raise = ({})",
-                request.getHeader("user_uid"),
+        log.info("[Error] Request = ({}) Raise = ({})",
                 request.getContextPath(),
                 exception.getClass().getSimpleName()
         );
-
+        log.debug("[Error] {} ",
+                exception.getMessage());
         return ResponseEntity.status(500).body(
                 ExceptionResponseDto
                         .builder()
@@ -149,10 +211,10 @@ public class GlobalExceptionHandler {
                         .build()
         );
     }
+
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ExceptionResponseDto> processMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException exception, WebRequest request) {
-        log.info("UID = ({}) Request = ({}) Raise = ({})",
-                request.getHeader("user_uid"),
+        log.info("[Error] Request = ({}) Raise = ({})",
                 request.getContextPath(),
                 "MethodArgumentTypeMismatchException"
         );
@@ -168,10 +230,10 @@ public class GlobalExceptionHandler {
                         .build()
         );
     }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ExceptionResponseDto> processValidationError(MethodArgumentNotValidException exception, WebRequest request) {
-        log.info("UID = ({}) Request = ({}) Raise = ({})",
-                request.getHeader("user_uid"),
+        log.info("[Error] Request = ({}) Raise = ({})",
                 request.getContextPath(),
                 "MethodArgumentNotValidException"
         );
@@ -200,10 +262,10 @@ public class GlobalExceptionHandler {
         );
 
     }
+
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ExceptionResponseDto> processValidationError(ConstraintViolationException exception, WebRequest request) {
-        log.info("UID = ({}) Request = ({}) Raise = ({})",
-                request.getHeader("user_uid"),
+        log.info("[Error] Request = ({}) Raise = ({})",
                 request.getContextPath(),
                 "ConstraintViolationException"
         );
@@ -222,8 +284,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ExceptionResponseDto> processHttpMessageNotReadableException(HttpMessageNotReadableException exception, WebRequest request) {
-        log.info("UID = ({}) Request = ({}) Raise = ({})",
-                request.getHeader("user_uid"),
+        log.info("[Error] Request = ({}) Raise = ({})",
                 request.getContextPath(),
                 "HttpMessageNotReadableException"
         );

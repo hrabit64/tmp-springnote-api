@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class ImageApiController {
 
     @GetMapping("/{imageId}")
-    public void getImageById() {
+    public void getImageById(@PathVariable Long imageId) {
 
     }
 
@@ -27,7 +27,7 @@ public class ImageApiController {
 
     @EnableAuth(authLevel = AuthLevel.ADMIN)
     @DeleteMapping("/{imageId}")
-    public void deleteImage() {
+    public void deleteImage(@PathVariable Long imageId) {
 
     }
 

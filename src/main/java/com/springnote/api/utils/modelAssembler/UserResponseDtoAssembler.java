@@ -1,4 +1,4 @@
-package com.springnote.api.utils.dtoModelAssembler;
+package com.springnote.api.utils.modelAssembler;
 
 import com.springnote.api.dto.user.common.UserResponseDto;
 

@@ -1,5 +1,6 @@
 package com.springnote.api.domain.jpa.series;
 
+import com.springnote.api.domain.elasticsearch.seriesIndex.SeriesIndex;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,4 +24,17 @@ public class Series {
 
     @Column(name = "series_description", nullable = false, length = 50)
     private String description;
+
+    public void update(Series series){
+        this.title = series.getTitle();
+        this.description = series.getDescription();
+    }
+
+    public SeriesIndex toIndex(){
+        return SeriesIndex.builder()
+                .id(id)
+                .title(title)
+                .description(description)
+                .build();
+    }
 }

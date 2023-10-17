@@ -2,6 +2,7 @@ package com.springnote.api.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.elasticsearch.client.ClientConfiguration;
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchConfiguration;
 import org.springframework.data.elasticsearch.client.erhlc.AbstractElasticsearchConfiguration;
@@ -15,27 +16,28 @@ import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 
-//@Configuration
-//@EnableElasticsearchRepositories(basePackages = "com.springnote.api.domain.elasticsearch")
-//public class ElasticsearchConfig extends ElasticsearchConfiguration  {
-//
-//    @Value("${spring.data.elasticsearch.cluster-nodes}")
-//    private String connectionUrl;
-//
-//
-//    @Value("${spring.data.elasticsearch.cluster-nodes}")
-//    private String username;
-//
-//    @Value("${spring.data.elasticsearch.cluster-nodes}")
-//    private String password;
-//
-//    @Nonnull
-//    @Override
-//    public ClientConfiguration clientConfiguration() {
-//        return ClientConfiguration.builder()
-//                .connectedTo(connectionUrl)
-//                .withBasicAuth("elastic", "test1234")
-//                .build();
-//    }
-//
-//}
+
+@Configuration
+@EnableElasticsearchRepositories(basePackages = "com.springnote.api.domain.elasticsearch")
+public class ElasticsearchConfig extends ElasticsearchConfiguration  {
+
+    @Value("${elasticsearch.connection-url}")
+    private String connectionUrl;
+
+
+    @Value("${elasticsearch.username}")
+    private String username;
+
+    @Value("${elasticsearch.password}")
+    private String password;
+
+    @Nonnull
+    @Override
+    public ClientConfiguration clientConfiguration() {
+        return ClientConfiguration.builder()
+                .connectedTo(connectionUrl)
+                .withBasicAuth(username, password)
+                .build();
+    }
+
+}
