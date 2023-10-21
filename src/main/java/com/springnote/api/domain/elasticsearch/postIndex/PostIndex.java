@@ -24,9 +24,4 @@ public class PostIndex {
     @Field(type= FieldType.Text)
     private String content;
 
-    @Field(type= FieldType.Text)
-    private String series;
-
-    @Field(type= FieldType.Long)
-    private String seriesId;
 }

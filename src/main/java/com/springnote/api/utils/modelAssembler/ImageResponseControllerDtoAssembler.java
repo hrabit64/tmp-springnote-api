@@ -2,6 +2,7 @@ package com.springnote.api.utils.modelAssembler;
 
 import com.springnote.api.dto.image.controller.ImageResponseControllerDto;
 import com.springnote.api.dto.series.controller.SeriesUpdateRequestControllerDto;
+import com.springnote.api.web.controller.ImageApiController;
 import com.springnote.api.web.controller.SeriesApiController;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
@@ -19,8 +20,8 @@ public class ImageResponseControllerDtoAssembler implements RepresentationModelA
     @Override
     public EntityModel<ImageResponseControllerDto> toModel(@Nonnull ImageResponseControllerDto entity) {
         return EntityModel.of(entity,
-                linkTo(methodOn(SeriesApiController.class).getSeriesById(entity.getId())).withSelfRel(),
-                linkTo(methodOn(SeriesApiController.class).deleteSeries(entity.getId())).withRel("delete"));
+                linkTo(methodOn(ImageApiController.class).getImageById(entity.getId())).withSelfRel(),
+                linkTo(methodOn(ImageApiController.class).deleteImage(entity.getId())).withRel("delete"));
     }
 
 

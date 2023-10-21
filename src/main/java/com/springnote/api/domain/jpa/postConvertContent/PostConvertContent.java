@@ -4,6 +4,8 @@ import com.springnote.api.domain.jpa.post.Post;
 import jakarta.persistence.*;
 import lombok.*;
 
+
+//html 변환된 본문
 @NamedEntityGraphs({
         @NamedEntityGraph(name = "PostConvertContent.post", attributeNodes = @NamedAttributeNode("post"))
 })
@@ -25,4 +27,8 @@ public class PostConvertContent {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_post_pk", nullable = false)
     private Post post;
+
+    public void update(String text){
+        this.text = text;
+    }
 }

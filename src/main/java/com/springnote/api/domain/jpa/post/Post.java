@@ -1,5 +1,6 @@
 package com.springnote.api.domain.jpa.post;
 
+import com.springnote.api.domain.elasticsearch.postIndex.PostIndex;
 import com.springnote.api.domain.jpa.comment.Comment;
 import com.springnote.api.domain.jpa.series.Series;
 import jakarta.persistence.*;
@@ -43,4 +44,18 @@ public class Post {
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     private List<Comment> comments;
+
+    public PostIndex toIndex(String content){
+        return PostIndex.builder()
+                .id(id)
+                .title(title)
+                .content(content)
+                .build();
+    }
+
+    public void update(Post post){
+        title = post.getTitle();
+        thumbnail = post.getThumbnail();
+        updateAt = post.getUpdateAt();
+    }
 }

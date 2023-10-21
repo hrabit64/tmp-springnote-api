@@ -96,7 +96,7 @@ public class SeriesApiController {
             throw new ControllerException(ControllerErrorCode.NOT_VALID, "설명은 2글자 이상이어야 합니다.");
         }
         if(description.length() > 12){
-            throw new ControllerException(ControllerErrorCode.NOT_VALID, "설명은 12글자 이히이어야 합니다.");
+            throw new ControllerException(ControllerErrorCode.NOT_VALID, "설명은 12글자 이하이어야 합니다.");
         }
     }
 }
