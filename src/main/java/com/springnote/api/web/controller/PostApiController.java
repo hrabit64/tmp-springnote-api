@@ -86,7 +86,7 @@ public class PostApiController {
         return postResponseControllerDtoAssembler.toModel(result.toControllerDto());
     }
 
-    //    @EnableAuth(authLevel = AuthLevel.ADMIN)
+        @EnableAuth(authLevel = AuthLevel.ADMIN)
     @PostMapping("")
     public EntityModel<PostResponseControllerDto> createPost(
             @RequestBody @Validated PostAddRequestControllerDto dto
@@ -95,14 +95,14 @@ public class PostApiController {
         return postResponseControllerDtoAssembler.toModel(result.toControllerDto());
     }
 
-    //    @EnableAuth(authLevel = AuthLevel.ADMIN)
+    @EnableAuth(authLevel = AuthLevel.ADMIN)
     @PutMapping("/{postId}")
     public EntityModel<PostResponseControllerDto> updatePost(@PathVariable Long postId, @RequestBody @Validated PostUpdateRequestControllerDto dto) {
         var result = postService.updatePost(dto.toServiceDto(postId));
         return postResponseControllerDtoAssembler.toModel(result.toControllerDto());
     }
 
-    //    @EnableAuth(authLevel = AuthLevel.ADMIN)
+    @EnableAuth(authLevel = AuthLevel.ADMIN)
     @DeleteMapping("/{postId}")
     public EntityModel<PostResponseControllerDto> deletePost(@PathVariable Long postId) {
         var result = postService.deletePost(postId);

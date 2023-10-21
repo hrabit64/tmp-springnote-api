@@ -10,8 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @NamedEntityGraphs({
-        @NamedEntityGraph(name = "Post.series", attributeNodes = @NamedAttributeNode("series")),
-        @NamedEntityGraph(name = "Post.comments", attributeNodes = @NamedAttributeNode("comments")),
+        @NamedEntityGraph(name = "Post.series", attributeNodes = @NamedAttributeNode("series"))
 })
 @Getter
 @Setter
@@ -42,8 +41,6 @@ public class Post {
     @JoinColumn(name = "series_series_pk", nullable = false)
     private Series series;
 
-    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-    private List<Comment> comments;
 
     public PostIndex toIndex(String content){
         return PostIndex.builder()
