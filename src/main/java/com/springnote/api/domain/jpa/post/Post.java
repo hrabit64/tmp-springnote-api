@@ -2,6 +2,7 @@ package com.springnote.api.domain.jpa.post;
 
 import com.springnote.api.domain.elasticsearch.postIndex.PostIndex;
 import com.springnote.api.domain.jpa.comment.Comment;
+import com.springnote.api.domain.jpa.postConvertContent.PostConvertContent;
 import com.springnote.api.domain.jpa.series.Series;
 import jakarta.persistence.*;
 import lombok.*;
