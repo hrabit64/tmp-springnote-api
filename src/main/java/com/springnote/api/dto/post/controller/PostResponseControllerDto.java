@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.springnote.api.domain.jpa.post.Post;
 import com.springnote.api.dto.series.common.SeriesResponseDto;
 import lombok.*;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.time.LocalDateTime;
 
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+@Relation(collectionRelation = "post_items")
 public class PostResponseControllerDto {
     private Long id;
     private String title;
