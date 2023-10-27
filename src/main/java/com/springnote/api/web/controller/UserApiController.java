@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
-
+@CrossOrigin(origins = "*")
 @Validated
 @Slf4j
 @RequiredArgsConstructor
