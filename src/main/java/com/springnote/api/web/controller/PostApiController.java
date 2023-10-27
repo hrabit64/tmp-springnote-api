@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 @Validated
 @Slf4j
@@ -134,11 +135,43 @@ public class PostApiController {
     @EnableAuth(authLevel = AuthLevel.ADMIN)
     @PostMapping("/upload")
     public EntityModel<PostResponseControllerDto> uploadPost(
-            @RequestPart PostUploadRequestControllerDto dto,
+            @RequestPart String title,
+            @RequestPart String seriesName,
+            @RequestPart String thumbnail,
             @RequestPart MultipartFile markdownFile
     ) throws IOException {
-        //read markdownFile
+        validateArg(title, seriesName, thumbnail);
+
+        var dto = PostUploadRequestControllerDto.builder()
+                .title(title)
+                .seriesName(seriesName)
+                .thumbnail(thumbnail)
+                .build();
         var result = postService.uploadPost(dto.toServiceDto(new String(markdownFile.getBytes())));
         return postResponseControllerDtoAssembler.toModel(result.toControllerDto());
+    }
+
+    private void validateArg(String title, String seriesName, String thumbnail) {
+
+        if (title.length() > 50 || title.length() == 0) {
+            throw new ControllerException(ControllerErrorCode.NOT_VALID, "제목은 50자 이하이어야 합니다.");
+        }
+
+        if (seriesName.length() > 50 || seriesName.length() == 0) {
+            throw new ControllerException(ControllerErrorCode.NOT_VALID, "시리즈 이름은 50자 이하이어야 합니다.");
+        }
+
+        if (thumbnail.length() > 260 || thumbnail.length() == 0) {
+            throw new ControllerException(ControllerErrorCode.NOT_VALID, "썸네일 주소는 260자 이하이어야 합니다.");
+        }
+    }
+
+    private void validationFileType(MultipartFile markdownFile) {
+        var fileName = markdownFile.getOriginalFilename();
+        var extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+        var allowedExtension = List.of("md");
+        if (!allowedExtension.contains(extension)) {
+            throw new ControllerException(ControllerErrorCode.NOT_VALID, "파일 확장자는 md 만 가능합니다.");
+        }
     }
 }
