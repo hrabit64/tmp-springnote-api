@@ -23,6 +23,10 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.Arrays;
 
 @Validated
 @Slf4j
@@ -86,7 +90,7 @@ public class PostApiController {
         return postResponseControllerDtoAssembler.toModel(result.toControllerDto());
     }
 
-        @EnableAuth(authLevel = AuthLevel.ADMIN)
+    @EnableAuth(authLevel = AuthLevel.ADMIN)
     @PostMapping("")
     public EntityModel<PostResponseControllerDto> createPost(
             @RequestBody @Validated PostAddRequestControllerDto dto
@@ -125,5 +129,16 @@ public class PostApiController {
         if (content.length() > 12) {
             throw new ControllerException(ControllerErrorCode.NOT_VALID, "본문 검색어는 12자 이하이어야 합니다.");
         }
+    }
+
+    @EnableAuth(authLevel = AuthLevel.ADMIN)
+    @PostMapping("/upload")
+    public EntityModel<PostResponseControllerDto> uploadPost(
+            @RequestPart PostUploadRequestControllerDto dto,
+            @RequestPart MultipartFile markdownFile
+    ) throws IOException {
+        //read markdownFile
+        var result = postService.uploadPost(dto.toServiceDto(new String(markdownFile.getBytes())));
+        return postResponseControllerDtoAssembler.toModel(result.toControllerDto());
     }
 }
