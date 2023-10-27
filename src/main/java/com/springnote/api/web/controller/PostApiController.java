@@ -135,9 +135,9 @@ public class PostApiController {
     @EnableAuth(authLevel = AuthLevel.ADMIN)
     @PostMapping("/upload")
     public EntityModel<PostResponseControllerDto> uploadPost(
-            @RequestPart String title,
-            @RequestPart String seriesName,
-            @RequestPart String thumbnail,
+            @RequestParam String title,
+            @RequestParam String seriesName,
+            @RequestParam String thumbnail,
             @RequestPart MultipartFile markdownFile
     ) throws IOException {
         validateArg(title, seriesName, thumbnail);
