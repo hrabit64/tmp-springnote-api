@@ -14,6 +14,7 @@ import com.springnote.api.dto.post.common.PostResponseDto;
 import com.springnote.api.dto.post.service.PostAddRequestServiceDto;
 import com.springnote.api.dto.post.service.PostResponseServiceDto;
 import com.springnote.api.dto.post.service.PostUpdateRequestServiceDto;
+import com.springnote.api.dto.post.service.PostUploadRequestServiceDto;
 import com.springnote.api.utils.exception.service.ServiceErrorCode;
 import com.springnote.api.utils.exception.service.ServiceException;
 import com.springnote.api.utils.markdown.MarkdownConvertor;
@@ -97,6 +98,91 @@ public class PostService {
         return new PostResponseServiceDto(newPost, newPostConvertContent.getText(), true);
     }
 
+    @Transactional
+    public PostResponseServiceDto uploadPost(PostUploadRequestServiceDto dto) {
+
+        var targetSeries = seriesRepository.findByTitle(dto.getTitle()).orElse(null);
+        if (targetSeries == null) {
+            targetSeries = seriesRepository.saveAndFlush(Series.builder()
+                    .title(dto.getTitle())
+                            .description("아직 작성된 설명이 없습니다.")
+                    .build());
+        }
+
+        var targetPost = postRepository.findByTitle(dto.getTitle())
+                .orElse(null);
+
+        Post resultPost;
+        //신규 생성 모드로
+        if (targetPost == null) {
+            resultPost = createNewPostWithFile(targetSeries, dto);
+        }
+        //수정 모드
+        else{
+            resultPost = updatePostWithFile(targetSeries, dto,targetPost);
+        }
+
+        return new PostResponseServiceDto(resultPost, dto.getContent(), true);
+    }
+    @Transactional
+    public Post createNewPostWithFile(Series targetSeries, PostUploadRequestServiceDto dto) {
+        var newPost = Post.builder()
+                .createAt(timeUtility.nowDateTime())
+                .updateAt(timeUtility.nowDateTime())
+                .series(targetSeries)
+                .thumbnail(dto.getThumbnail())
+                .title(dto.getTitle())
+                .build();
+        var savedPost = postRepository.saveAndFlush(newPost);
+
+        //create post content
+        var renderContent = markdownConvertor.convertToHtml(dto.getContent());
+        var newPostContent = postContentRepository.save(PostContent
+                .builder()
+                .post(newPost)
+                .text(dto.getContent())
+                .build()
+        );
+        var newPostConvertContent = postConvertContentRepository.save(PostConvertContent
+                .builder()
+                .post(newPost)
+                .text(renderContent)
+                .build()
+        );
+
+        //create post index
+        var plainText = markdownConvertor.convertToPlainText(newPostConvertContent.getText(), true);
+        var newPostIndex = newPost.toIndex(plainText);
+        postIndexRepository.save(newPostIndex);
+
+        return savedPost;
+    }
+
+    @Transactional
+    public Post updatePostWithFile(Series targetSeries, PostUploadRequestServiceDto dto, Post targetPost){
+        var postConvertContent = postConvertContentRepository.findByPost(targetPost)
+                .orElseThrow(() -> new ServiceException(ServiceErrorCode.UNKNOWN_ERROR, "변환된 포스트 내용을 찾을 수 없습니다."));
+        var postContent = postContentRepository.findByPost(targetPost)
+                .orElseThrow(() -> new ServiceException(ServiceErrorCode.UNKNOWN_ERROR, "포스트 내용을 찾을 수 없습니다."));
+
+        targetPost.update(dto.getTitle(), dto.getThumbnail(), timeUtility.nowDateTime() ,targetSeries);
+        var savedPost = postRepository.saveAndFlush(targetPost);
+
+        var updatedRenderContent = markdownConvertor.convertToHtml(dto.getContent());
+        postConvertContent.update(updatedRenderContent);
+        var updatedPostConvertContent = postConvertContentRepository.saveAndFlush(postConvertContent);
+
+        //update content
+        postContent.update(dto.getContent());
+        var updatedPostContent = postContentRepository.saveAndFlush(postContent);
+
+
+        //update post index
+        var postIndex = savedPost.toIndex(markdownConvertor.convertToPlainText(updatedPostConvertContent.getText(), true));
+        postIndexRepository.save(postIndex);
+
+        return savedPost;
+    }
     @Transactional
     public PostResponseServiceDto updatePost(PostUpdateRequestServiceDto dto) {
         var targetPost = postRepository.findById(dto.getId())

@@ -56,4 +56,12 @@ public class Post {
         thumbnail = post.getThumbnail();
         updateAt = post.getUpdateAt();
     }
+
+    public void update(String title, String thumbnail, LocalDateTime now, Series series){
+        this.title = title;
+        this.thumbnail = thumbnail;
+        this.series = series;
+        updateAt = now;
+    }
+
 }
