@@ -14,7 +14,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-@CrossOrigin(origins = "")
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
