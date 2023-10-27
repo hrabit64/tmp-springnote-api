@@ -132,7 +132,7 @@ public class PostApiController {
         }
     }
 
-//    @EnableAuth(authLevel = AuthLevel.ADMIN)
+    @EnableAuth(authLevel = AuthLevel.ADMIN)
     @PostMapping("/upload")
     public EntityModel<PostResponseControllerDto> uploadPost(
             @RequestPart String title,
