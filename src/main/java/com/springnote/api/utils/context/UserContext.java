@@ -22,4 +22,8 @@ public class UserContext {
         this.name = user.getName();
         this.isAdmin = user.isAdmin();
     }
+
+    public boolean isExist(){
+        return this.uid != null;
+    }
 }

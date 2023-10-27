@@ -12,6 +12,7 @@ import com.springnote.api.utils.exception.service.ServiceErrorCode;
 import com.springnote.api.utils.exception.service.ServiceException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+@Slf4j
 @Order(2)
 @Aspect
 @RequiredArgsConstructor
@@ -75,6 +77,7 @@ public class AuthAspect {
                 throw new AuthException(AuthErrorCode.UNKNOWN_ERROR, "알 수 없는 오류가 발생했습니다. 다시 시도해주세요.");
             }
         } catch (Exception e) {
+            log.debug(e.getMessage());
             throw new AuthException(AuthErrorCode.UNKNOWN_ERROR, "알 수 없는 오류가 발생했습니다. 다시 시도해주세요.");
         }
     }

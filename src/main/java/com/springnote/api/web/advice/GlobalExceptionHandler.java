@@ -139,6 +139,10 @@ public class GlobalExceptionHandler {
                 request.getContextPath(),
                 "IllegalArgumentException"
         );
+        log.debug("[Error] Request = ({}) Raise = ({})",
+                request.getContextPath(),
+                exception.getMessage()
+        );
         return ResponseEntity.status(404).body(
                 ExceptionResponseDto
                         .builder()
