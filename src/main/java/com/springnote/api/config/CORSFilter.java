@@ -1,5 +1,6 @@
 package com.springnote.api.config;
 
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpMethod;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -7,6 +8,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @Order(-1)
 @Component
@@ -25,6 +27,11 @@ public class CORSFilter implements Filter {
         response.setHeader("Access-Control-Max-Age", "3600"); // Preflight cache duration in browser
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
         response.setHeader("Access-Control-Allow-Headers", origin); // all header
+
+        if (Objects.equals(request.getMethod(), HttpMethod.OPTIONS.name())) {
+            response.setStatus(HttpServletResponse.SC_OK);
+            return ;
+        }
 
         chain.doFilter(req, res);
     }
