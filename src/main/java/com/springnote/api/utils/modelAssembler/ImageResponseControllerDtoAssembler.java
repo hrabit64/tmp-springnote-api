@@ -20,8 +20,7 @@ public class ImageResponseControllerDtoAssembler implements RepresentationModelA
     @Override
     public EntityModel<ImageResponseControllerDto> toModel(@Nonnull ImageResponseControllerDto entity) {
         return EntityModel.of(entity,
-                linkTo(methodOn(ImageApiController.class).getImageById(entity.getId())).withSelfRel(),
-                linkTo(methodOn(ImageApiController.class).deleteImage(entity.getId())).withRel("delete"));
+                linkTo(methodOn(ImageApiController.class).getImageById(entity.getId())).withRel("view"));
     }
 
 

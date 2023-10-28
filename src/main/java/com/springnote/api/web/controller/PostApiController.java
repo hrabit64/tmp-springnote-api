@@ -45,7 +45,7 @@ public class PostApiController {
     @GetMapping("")
     public PagedModel<EntityModel<PostResponseDto>> getPosts(
             @PageableDefault(page = 0, size = 100, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
-            @RequestParam(required = false, defaultValue = "null") Long series
+            @RequestParam(required = false) Long series
     ) {
         Page<PostResponseDto> result;
         if (series != null) {
