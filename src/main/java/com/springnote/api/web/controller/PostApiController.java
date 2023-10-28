@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+
 @Validated
 @Slf4j
 @RequiredArgsConstructor
@@ -71,16 +72,16 @@ public class PostApiController {
         return pagedResourcesAssembler.toModel(result, postResponseDtoAssembler);
 
     }
-
-    @GetMapping("/recommend")
-    public ResponseEntity<PostResponseListControllerDto> getRecommendedPosts() {
-        var result = postService.getRecommendPost();
-        var data = result.stream()
-                .map(postResponseDtoAssembler::toModel)
-                .toList();
-
-        return ResponseEntity.ok(new PostResponseListControllerDto(data));
-    }
+//
+//    @GetMapping("/recommend")
+//    public ResponseEntity<PostResponseListControllerDto> getRecommendedPosts() {
+//        var result = postService.getRecommendPost();
+//        var data = result.stream()
+//                .map(postResponseDtoAssembler::toModel)
+//                .toList();
+//
+//        return ResponseEntity.ok(new PostResponseListControllerDto(data));
+//    }
 
     @GetMapping("/{postId}")
     public EntityModel<PostResponseControllerDto> getPostById(
@@ -91,21 +92,21 @@ public class PostApiController {
         return postResponseControllerDtoAssembler.toModel(result.toControllerDto());
     }
 
-    @EnableAuth(authLevel = AuthLevel.ADMIN)
-    @PostMapping("")
-    public EntityModel<PostResponseControllerDto> createPost(
-            @RequestBody @Validated PostAddRequestControllerDto dto
-    ) {
-        var result = postService.createPost(dto.toServiceDto());
-        return postResponseControllerDtoAssembler.toModel(result.toControllerDto());
-    }
-
-    @EnableAuth(authLevel = AuthLevel.ADMIN)
-    @PutMapping("/{postId}")
-    public EntityModel<PostResponseControllerDto> updatePost(@PathVariable Long postId, @RequestBody @Validated PostUpdateRequestControllerDto dto) {
-        var result = postService.updatePost(dto.toServiceDto(postId));
-        return postResponseControllerDtoAssembler.toModel(result.toControllerDto());
-    }
+//    @EnableAuth(authLevel = AuthLevel.ADMIN)
+//    @PostMapping("")
+//    public EntityModel<PostResponseControllerDto> createPost(
+//            @RequestBody @Validated PostAddRequestControllerDto dto
+//    ) {
+//        var result = postService.createPost(dto.toServiceDto());
+//        return postResponseControllerDtoAssembler.toModel(result.toControllerDto());
+//    }
+//
+//    @EnableAuth(authLevel = AuthLevel.ADMIN)
+//    @PutMapping("/{postId}")
+//    public EntityModel<PostResponseControllerDto> updatePost(@PathVariable Long postId, @RequestBody @Validated PostUpdateRequestControllerDto dto) {
+//        var result = postService.updatePost(dto.toServiceDto(postId));
+//        return postResponseControllerDtoAssembler.toModel(result.toControllerDto());
+//    }
 
     @EnableAuth(authLevel = AuthLevel.ADMIN)
     @DeleteMapping("/{postId}")

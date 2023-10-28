@@ -60,27 +60,27 @@ public class SeriesApiController {
         var result = seriesService.findById(seriesId);
         return assembler.toModel(result);
     }
-
-    @EnableAuth(authLevel = AuthLevel.ADMIN)
-    @PostMapping("")
-    public EntityModel<SeriesResponseDto> createSeries(@RequestBody @Validated SeriesAddRequestControllerDto dto) {
-        var result = seriesService.createSeries(dto.toServiceDto());
-        return assembler.toModel(result);
-    }
-
-    @EnableAuth(authLevel = AuthLevel.ADMIN)
-    @PutMapping("/{seriesId}")
-    public EntityModel<SeriesResponseDto> updateSeries(@PathVariable Long seriesId, @RequestBody @Validated SeriesUpdateRequestControllerDto dto) {
-        var result = seriesService.updateSeries(dto.toServiceDto(seriesId));
-        return assembler.toModel(result);
-    }
-
-    @EnableAuth(authLevel = AuthLevel.ADMIN)
-    @DeleteMapping("/{seriesId}")
-    public EntityModel<SeriesResponseDto> deleteSeries(@PathVariable Long seriesId) {
-        var result = seriesService.deleteSeries(seriesId);
-        return assembler.toModel(result);
-    }
+//
+//    @EnableAuth(authLevel = AuthLevel.ADMIN)
+//    @PostMapping("")
+//    public EntityModel<SeriesResponseDto> createSeries(@RequestBody @Validated SeriesAddRequestControllerDto dto) {
+//        var result = seriesService.createSeries(dto.toServiceDto());
+//        return assembler.toModel(result);
+//    }
+//
+//    @EnableAuth(authLevel = AuthLevel.ADMIN)
+//    @PutMapping("/{seriesId}")
+//    public EntityModel<SeriesResponseDto> updateSeries(@PathVariable Long seriesId, @RequestBody @Validated SeriesUpdateRequestControllerDto dto) {
+//        var result = seriesService.updateSeries(dto.toServiceDto(seriesId));
+//        return assembler.toModel(result);
+//    }
+//
+//    @EnableAuth(authLevel = AuthLevel.ADMIN)
+//    @DeleteMapping("/{seriesId}")
+//    public EntityModel<SeriesResponseDto> deleteSeries(@PathVariable Long seriesId) {
+//        var result = seriesService.deleteSeries(seriesId);
+//        return assembler.toModel(result);
+//    }
 
     private void isQueryParamValid(String title, String description) {
         if(title.equals("") && description.equals("")) {
