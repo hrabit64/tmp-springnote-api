@@ -23,7 +23,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
+@CrossOrigin(origins = {"https://www.springnote.blog","https://springnote.blog" ,"http://localhost"})
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -34,51 +34,51 @@ public class CommentApiController {
     private final CommentResponseDtoAssembler commentResponseDtoAssembler;
     private final PagedResourcesAssembler<CommentResponseDto> pagedResourcesAssembler;
     private final UserContext userContext;
-
-    @EnableAuth(authLevel = AuthLevel.ADMIN)
-    @GetMapping("")
-    public PagedModel<EntityModel<CommentResponseDto>> getComments(
-            @RequestParam(value = "post",required = true) Long postId,
-            @PageableDefault(page = 0, size = 100, sort = "id", direction = Sort.Direction.DESC) Pageable pageable
-    ){
-        var comments = commentService.getCommentWithPost(pageable, postId);
-        return pagedResourcesAssembler.toModel(comments, commentResponseDtoAssembler);
-    }
-
-    @EnableAuth(authLevel = AuthLevel.ADMIN)
-    @GetMapping("/{commentId}")
-    public EntityModel<CommentResponseDto> getCommentById(@PathVariable Long commentId) {
-        var comment = commentService.getComment(commentId);
-        return commentResponseDtoAssembler.toModel(comment);
-    }
-
-//    @EnableAuth(authLevel = AuthLevel.USER)
-    @EnableAuth(authLevel = AuthLevel.ADMIN)
-    @PostMapping("/comment")
-    public EntityModel<CommentResponseDto> createComment(
-            @RequestBody @Validated CommentAddRequestControllerDto dto
-    ) {
-        var comment = commentService.createComment(dto.toServiceDto(userContext.getUid()));
-        return commentResponseDtoAssembler.toModel(comment);
-    }
-
-    @EnableAuth(authLevel = AuthLevel.ADMIN)
-//    @EnableAuth(authLevel = AuthLevel.USER)
-    @PutMapping("/{commentId}")
-    public EntityModel<CommentResponseDto> updateComment(
-            @PathVariable Long commentId,
-            @RequestBody @Validated CommentUpdateRequestControllerDto dto
-    ) {
-        var comment = commentService.updateComment(dto.toServiceDto(userContext.getUid(), commentId));
-        return commentResponseDtoAssembler.toModel(comment);
-    }
-
-    @EnableAuth(authLevel = AuthLevel.ADMIN)
-//    @EnableAuth(authLevel = AuthLevel.USER)
-    @DeleteMapping("/{commentId}")
-    public EntityModel<CommentResponseDto> deleteComment(@PathVariable Long commentId) {
-        var comment = commentService.deleteComment(commentId,userContext.getUid(),userContext.isAdmin());
-        return commentResponseDtoAssembler.toModel(comment);
-    }
+//
+//    @EnableAuth(authLevel = AuthLevel.ADMIN)
+//    @GetMapping("")
+//    public PagedModel<EntityModel<CommentResponseDto>> getComments(
+//            @RequestParam(value = "post",required = true) Long postId,
+//            @PageableDefault(page = 0, size = 100, sort = "id", direction = Sort.Direction.DESC) Pageable pageable
+//    ){
+//        var comments = commentService.getCommentWithPost(pageable, postId);
+//        return pagedResourcesAssembler.toModel(comments, commentResponseDtoAssembler);
+//    }
+//
+//    @EnableAuth(authLevel = AuthLevel.ADMIN)
+//    @GetMapping("/{commentId}")
+//    public EntityModel<CommentResponseDto> getCommentById(@PathVariable Long commentId) {
+//        var comment = commentService.getComment(commentId);
+//        return commentResponseDtoAssembler.toModel(comment);
+//    }
+//
+////    @EnableAuth(authLevel = AuthLevel.USER)
+//    @EnableAuth(authLevel = AuthLevel.ADMIN)
+//    @PostMapping("/comment")
+//    public EntityModel<CommentResponseDto> createComment(
+//            @RequestBody @Validated CommentAddRequestControllerDto dto
+//    ) {
+//        var comment = commentService.createComment(dto.toServiceDto(userContext.getUid()));
+//        return commentResponseDtoAssembler.toModel(comment);
+//    }
+//
+//    @EnableAuth(authLevel = AuthLevel.ADMIN)
+////    @EnableAuth(authLevel = AuthLevel.USER)
+//    @PutMapping("/{commentId}")
+//    public EntityModel<CommentResponseDto> updateComment(
+//            @PathVariable Long commentId,
+//            @RequestBody @Validated CommentUpdateRequestControllerDto dto
+//    ) {
+//        var comment = commentService.updateComment(dto.toServiceDto(userContext.getUid(), commentId));
+//        return commentResponseDtoAssembler.toModel(comment);
+//    }
+//
+//    @EnableAuth(authLevel = AuthLevel.ADMIN)
+////    @EnableAuth(authLevel = AuthLevel.USER)
+//    @DeleteMapping("/{commentId}")
+//    public EntityModel<CommentResponseDto> deleteComment(@PathVariable Long commentId) {
+//        var comment = commentService.deleteComment(commentId,userContext.getUid(),userContext.isAdmin());
+//        return commentResponseDtoAssembler.toModel(comment);
+//    }
 
 }
