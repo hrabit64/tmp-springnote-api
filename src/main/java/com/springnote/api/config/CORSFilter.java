@@ -5,6 +5,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -28,10 +29,6 @@ public class CORSFilter implements Filter {
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
         response.setHeader("Access-Control-Allow-Headers", origin); // all header
 
-        if (Objects.equals(request.getMethod(), HttpMethod.OPTIONS.name())) {
-            response.setStatus(HttpServletResponse.SC_OK);
-            return ;
-        }
 
         chain.doFilter(req, res);
     }
