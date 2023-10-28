@@ -22,12 +22,24 @@ public class CORSFilter implements Filter {
         var response = (HttpServletResponse) res;
 
         var origin = (request.getHeader("Origin") != null || !request.getHeader("Origin").isBlank()) ? request.getHeader("Origin") : "localhost";
-        response.setHeader("Access-Control-Allow-Origin", "*"); // * = all domainName
+
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            response.setHeader("Access-Control-Allow-Origin", origin);
+            response.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT");
+            response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
+
+            // You can set other CORS headers for preflight requests here if needed.
+
+            // End the filter chain for preflight requests.
+            response.setStatus(HttpServletResponse.SC_OK);
+            return;
+        }
+
+        response.setHeader("Access-Control-Allow-Origin", origin); // * = all domainName
         response.setHeader("Access-Control-Allow-Credentials", "true"); // allow CrossDomain to use Origin Domain
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
         response.setHeader("Access-Control-Max-Age", "3600"); // Preflight cache duration in browser
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
-        response.setHeader("Access-Control-Allow-Headers", origin); // all header
 
 
         chain.doFilter(req, res);
