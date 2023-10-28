@@ -11,7 +11,7 @@ import org.springframework.data.elasticsearch.annotations.*;
 @Builder
 @Mapping(mappingPath = "elastic/series-mapping.json")
 @Setting(settingPath = "elastic/series-setting.json")
-@Document(indexName = "springnote-series_index")
+@Document(indexName = "api-series_index")
 public class SeriesIndex {
 
     @Id

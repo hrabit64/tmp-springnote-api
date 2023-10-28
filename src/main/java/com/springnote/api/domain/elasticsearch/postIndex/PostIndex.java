@@ -9,9 +9,9 @@ import org.springframework.data.elasticsearch.annotations.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Mapping(mappingPath = "elastic/post-mapping.json")
-@Setting(settingPath = "elastic/post-setting.json")
-@Document(indexName = "springnote-post_index")
+@Mapping(mappingPath = "elastic/index-mapping.json")
+@Setting(settingPath = "elastic/index-setting.json")
+@Document(indexName = "api-post_index")
 public class PostIndex {
 
     @Id
