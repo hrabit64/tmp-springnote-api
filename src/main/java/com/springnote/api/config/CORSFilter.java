@@ -21,12 +21,15 @@ public class CORSFilter implements Filter {
         var request = (HttpServletRequest) req;
         var response = (HttpServletResponse) res;
 
-        var origin = (request.getHeader("Origin") != null || !request.getHeader("Origin").isBlank()) ? request.getHeader("Origin") : "localhost";
+//        var origin = (request.getHeader("Origin") != null || !request.getHeader("Origin").isBlank()) ? request.getHeader("Origin") : "localhost";
 
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
-            response.setHeader("Access-Control-Allow-Origin", origin);
-            response.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT");
+            response.setHeader("Access-Control-Allow-Origin", "https://www.springnote.blog");
+            response.setHeader("Access-Control-Allow-Credentials", "true");
+            response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
+            response.setHeader("Access-Control-Max-Age", "3600");
             response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
+
 
             // You can set other CORS headers for preflight requests here if needed.
 
@@ -35,7 +38,7 @@ public class CORSFilter implements Filter {
             return;
         }
 
-        response.setHeader("Access-Control-Allow-Origin", origin); // * = all domainName
+        response.setHeader("Access-Control-Allow-Origin", "https://www.springnote.blog"); // * = all domainName
         response.setHeader("Access-Control-Allow-Credentials", "true"); // allow CrossDomain to use Origin Domain
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
         response.setHeader("Access-Control-Max-Age", "3600"); // Preflight cache duration in browser
