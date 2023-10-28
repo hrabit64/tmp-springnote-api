@@ -20,9 +20,7 @@ public class SeriesResponseDtoAssembler implements RepresentationModelAssembler<
     @Override
     public EntityModel<SeriesResponseDto> toModel(@Nonnull SeriesResponseDto entity) {
         return EntityModel.of(entity,
-                linkTo(methodOn(SeriesApiController.class).getSeriesById(entity.getId())).withSelfRel(),
-                linkTo(methodOn(SeriesApiController.class).updateSeries(entity.getId(), new SeriesUpdateRequestControllerDto())).withRel("update"),
-                linkTo(methodOn(SeriesApiController.class).deleteSeries(entity.getId())).withRel("delete"));
+                linkTo(methodOn(SeriesApiController.class).getSeriesById(entity.getId())).withSelfRel());
     }
 
 

@@ -1,39 +1,39 @@
-//TODO : 댓글 필터링 구현 후, 댓글 기능 추가하기
-package com.springnote.api.web.controller;
-
-import com.springnote.api.dto.comment.common.CommentResponseDto;
-import com.springnote.api.dto.comment.controller.CommentAddRequestControllerDto;
-import com.springnote.api.dto.comment.controller.CommentUpdateRequestControllerDto;
-import com.springnote.api.dto.comment.service.CommentAddRequestServiceDto;
-import com.springnote.api.dto.comment.service.CommentReplyAddRequestServiceDto;
-import com.springnote.api.dto.series.common.SeriesResponseDto;
-import com.springnote.api.service.CommentService;
-import com.springnote.api.service.PostService;
-import com.springnote.api.utils.aop.auth.AuthLevel;
-import com.springnote.api.utils.aop.auth.EnableAuth;
-import com.springnote.api.utils.context.UserContext;
-import com.springnote.api.utils.modelAssembler.CommentResponseDtoAssembler;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.PagedModel;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-@Slf4j
-@RequiredArgsConstructor
-@RestController
-@RequestMapping("/api/v1/comment")
-public class CommentApiController {
-
-    private final CommentService commentService;
-    private final CommentResponseDtoAssembler commentResponseDtoAssembler;
-    private final PagedResourcesAssembler<CommentResponseDto> pagedResourcesAssembler;
-    private final UserContext userContext;
+////TODO : 댓글 필터링 구현 후, 댓글 기능 추가하기
+//package com.springnote.api.web.controller;
+//
+//import com.springnote.api.dto.comment.common.CommentResponseDto;
+//import com.springnote.api.dto.comment.controller.CommentAddRequestControllerDto;
+//import com.springnote.api.dto.comment.controller.CommentUpdateRequestControllerDto;
+//import com.springnote.api.dto.comment.service.CommentAddRequestServiceDto;
+//import com.springnote.api.dto.comment.service.CommentReplyAddRequestServiceDto;
+//import com.springnote.api.dto.series.common.SeriesResponseDto;
+//import com.springnote.api.service.CommentService;
+//import com.springnote.api.service.PostService;
+//import com.springnote.api.utils.aop.auth.AuthLevel;
+//import com.springnote.api.utils.aop.auth.EnableAuth;
+//import com.springnote.api.utils.context.UserContext;
+//import com.springnote.api.utils.modelAssembler.CommentResponseDtoAssembler;
+//import lombok.RequiredArgsConstructor;
+//import lombok.extern.slf4j.Slf4j;
+//import org.springframework.data.domain.Pageable;
+//import org.springframework.data.domain.Sort;
+//import org.springframework.data.web.PageableDefault;
+//import org.springframework.data.web.PagedResourcesAssembler;
+//import org.springframework.hateoas.EntityModel;
+//import org.springframework.hateoas.PagedModel;
+//import org.springframework.validation.annotation.Validated;
+//import org.springframework.web.bind.annotation.*;
+//
+//@Slf4j
+//@RequiredArgsConstructor
+//@RestController
+//@RequestMapping("/api/v1/comment")
+//public class CommentApiController {
+//
+//    private final CommentService commentService;
+//    private final CommentResponseDtoAssembler commentResponseDtoAssembler;
+//    private final PagedResourcesAssembler<CommentResponseDto> pagedResourcesAssembler;
+//    private final UserContext userContext;
 //
 //    @EnableAuth(authLevel = AuthLevel.ADMIN)
 //    @GetMapping("")
@@ -80,5 +80,5 @@ public class CommentApiController {
 //        var comment = commentService.deleteComment(commentId,userContext.getUid(),userContext.isAdmin());
 //        return commentResponseDtoAssembler.toModel(comment);
 //    }
-
-}
+//
+//}

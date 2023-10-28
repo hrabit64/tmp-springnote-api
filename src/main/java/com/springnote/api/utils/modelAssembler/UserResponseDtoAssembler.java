@@ -21,8 +21,6 @@ public class UserResponseDtoAssembler implements RepresentationModelAssembler<Us
     @Override
     public EntityModel<UserResponseDto> toModel(@Nonnull UserResponseDto entity) {
         return EntityModel.of(entity,
-                linkTo(methodOn(UserApiController.class).getUser(entity.getUid())).withSelfRel(),
-                linkTo(methodOn(UserApiController.class).updateUser(entity.getUid(), new UserUpdateRequestControllerDto())).withRel("update"),
-                linkTo(methodOn(UserApiController.class).withdrawUser(entity.getUid())).withRel("withdraw"));
+                linkTo(methodOn(UserApiController.class).getUser(entity.getUid())).withSelfRel());
     }
 }
