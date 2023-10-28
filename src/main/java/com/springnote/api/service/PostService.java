@@ -101,10 +101,10 @@ public class PostService {
     @Transactional
     public PostResponseServiceDto uploadPost(PostUploadRequestServiceDto dto) {
 
-        var targetSeries = seriesRepository.findByTitle(dto.getTitle()).orElse(null);
+        var targetSeries = seriesRepository.findByTitle(dto.getSeriesName()).orElse(null);
         if (targetSeries == null) {
             targetSeries = seriesRepository.saveAndFlush(Series.builder()
-                    .title(dto.getTitle())
+                    .title(dto.getSeriesName())
                             .description("아직 작성된 설명이 없습니다.")
                     .build());
         }
