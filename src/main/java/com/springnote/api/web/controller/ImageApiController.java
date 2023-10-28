@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,14 +30,14 @@ public class ImageApiController {
         return imageService.findImageById(imageId);
     }
 
-    //    @EnableAuth(authLevel = AuthLevel.ADMIN)
+    @EnableAuth(authLevel = AuthLevel.ADMIN)
     @PostMapping("")
-    public EntityModel<ImageResponseControllerDto> createImage(@RequestParam("file") @NotNull MultipartFile file) {
+    public ResponseEntity<ImageResponseControllerDto> createImage(@RequestParam("file") @NotNull MultipartFile file) {
         var fileResult = imageService.createImage(file);
-        return assembler.toModel(fileResult.toControllerDto());
+        return ResponseEntity.ok(fileResult.toControllerDto());
     }
 
-    //    @EnableAuth(authLevel = AuthLevel.ADMIN)
+    @EnableAuth(authLevel = AuthLevel.ADMIN)
     @DeleteMapping("/{imageId}")
     public EntityModel<ImageResponseControllerDto> deleteImage(@PathVariable Long imageId) {
         var fileResult = imageService.deleteImage(imageId);

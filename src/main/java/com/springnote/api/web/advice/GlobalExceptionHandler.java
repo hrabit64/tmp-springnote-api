@@ -120,6 +120,7 @@ public class GlobalExceptionHandler {
                 request.getContextPath(),
                 "NOT_FOUND"
         );
+
         return ResponseEntity.status(404).body(
                 ExceptionResponseDto
                         .builder()
@@ -202,8 +203,9 @@ public class GlobalExceptionHandler {
                 request.getContextPath(),
                 exception.getClass().getSimpleName()
         );
-        log.debug("[Error] {} ",
-                exception.getMessage());
+        log.debug("[Error] {} {}",
+                exception.getMessage(),
+                exception.getStackTrace());
         return ResponseEntity.status(500).body(
                 ExceptionResponseDto
                         .builder()
