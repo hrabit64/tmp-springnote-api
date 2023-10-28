@@ -22,7 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
-@CrossOrigin(origins = {"https://www.springnote.blog","https://springnote.blog" ,"http://localhost"})
+
 @Validated
 @Slf4j
 @RequiredArgsConstructor

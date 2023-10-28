@@ -23,7 +23,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-@CrossOrigin(origins = {"https://www.springnote.blog","https://springnote.blog" ,"http://localhost"})
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController

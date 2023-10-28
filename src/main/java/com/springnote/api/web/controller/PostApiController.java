@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-@CrossOrigin(origins = {"https://www.springnote.blog","https://springnote.blog" ,"http://localhost"})
+
 @Validated
 @Slf4j
 @RequiredArgsConstructor
