@@ -25,7 +25,7 @@ public class Post {
     @Column(name = "post_pk", nullable = false)
     private Long id;
 
-    @Column(name = "post_title", nullable = false, length = 50)
+    @Column(name = "post_title", nullable = false, length = 200)
     private String title;
 
 

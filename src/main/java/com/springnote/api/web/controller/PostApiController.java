@@ -154,7 +154,7 @@ public class PostApiController {
 
     private void validateArg(String title, String seriesName, String thumbnail) {
 
-        if (title.length() > 50 || title.length() == 0) {
+        if (title.length() > 200 || title.length() == 0) {
             throw new ControllerException(ControllerErrorCode.NOT_VALID, "제목은 50자 이하이어야 합니다.");
         }
 
