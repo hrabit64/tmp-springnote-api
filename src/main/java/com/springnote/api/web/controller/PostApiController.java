@@ -59,7 +59,6 @@ public class PostApiController {
     }
 
 
-    //sphinx 검색엔진을 이용한 검색, 제목 + 본문
     @GetMapping("/search")
     public PagedModel<EntityModel<PostResponseDto>> getPostsWithSearch(
             @PageableDefault(page = 0, size = 100, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
@@ -85,10 +84,9 @@ public class PostApiController {
 
     @GetMapping("/{postId}")
     public EntityModel<PostResponseControllerDto> getPostById(
-            @PathVariable Long postId,
-            @RequestParam(required = false, defaultValue = "true") Boolean render
+            @PathVariable Long postId
     ) {
-        var result = postService.getPostById(postId, render);
+        var result = postService.getPostById(postId);
         return postResponseControllerDtoAssembler.toModel(result.toControllerDto());
     }
 
@@ -113,24 +111,6 @@ public class PostApiController {
     public EntityModel<PostResponseControllerDto> deletePost(@PathVariable Long postId) {
         var result = postService.deletePost(postId);
         return postResponseControllerDtoAssembler.toModel(result.toControllerDto());
-    }
-
-    private void isQueryParamValid(String title, String content) {
-        if (title.equals("") && content.equals("")) {
-            throw new ControllerException(ControllerErrorCode.NOT_VALID, "검색 옵션이 비워져 있습니다.");
-        }
-        if (!title.equals("") && title.length() < 2) {
-            throw new ControllerException(ControllerErrorCode.NOT_VALID, "제목은 2글자 이상이어야 합니다.");
-        }
-        if (title.length() > 10) {
-            throw new ControllerException(ControllerErrorCode.NOT_VALID, "제목은 10글자 이하이어야 합니다.");
-        }
-        if (!content.equals("") && content.length() < 2) {
-            throw new ControllerException(ControllerErrorCode.NOT_VALID, "본문 검색어는 2글자 이상이어야 합니다.");
-        }
-        if (content.length() > 12) {
-            throw new ControllerException(ControllerErrorCode.NOT_VALID, "본문 검색어는 12자 이하이어야 합니다.");
-        }
     }
 
     @EnableAuth(authLevel = AuthLevel.ADMIN)
@@ -164,6 +144,24 @@ public class PostApiController {
 
         if (thumbnail.length() > 260 || thumbnail.length() == 0) {
             throw new ControllerException(ControllerErrorCode.NOT_VALID, "썸네일 주소는 260자 이하이어야 합니다.");
+        }
+    }
+
+    private void isQueryParamValid(String title, String content) {
+        if (title.equals("") && content.equals("")) {
+            throw new ControllerException(ControllerErrorCode.NOT_VALID, "검색 옵션이 비워져 있습니다.");
+        }
+        if (!title.equals("") && title.length() < 2) {
+            throw new ControllerException(ControllerErrorCode.NOT_VALID, "제목은 2글자 이상이어야 합니다.");
+        }
+        if (title.length() > 10) {
+            throw new ControllerException(ControllerErrorCode.NOT_VALID, "제목은 10글자 이하이어야 합니다.");
+        }
+        if (!content.equals("") && content.length() < 2) {
+            throw new ControllerException(ControllerErrorCode.NOT_VALID, "본문 검색어는 2글자 이상이어야 합니다.");
+        }
+        if (content.length() > 12) {
+            throw new ControllerException(ControllerErrorCode.NOT_VALID, "본문 검색어는 12자 이하이어야 합니다.");
         }
     }
 

@@ -72,12 +72,12 @@ public class UserApiController {
 //            throw new AuthException(AuthErrorCode.AUTH_FAIL, "권한이 없습니다.");
 //    }
 
-    private String getToken(String token) {
-        if (!token.startsWith("Bearer "))
-            throw new AuthException(AuthErrorCode.NOT_FOUND, "인증 토큰의 형식이 올바르지 않습니다. Bearer 토큰 형식인지 다시 확인하세요.");
+    // private String getToken(String token) {
+    //     if (!token.startsWith("Bearer "))
+    //         throw new AuthException(AuthErrorCode.NOT_FOUND, "인증 토큰의 형식이 올바르지 않습니다. Bearer 토큰 형식인지 다시 확인하세요.");
 
-        return token.substring(7);
-    }
+    //     return token.substring(7);
+    // }
 
     private boolean isSameUserOrAdmin(String userId) {
         return userContext.getUid().equals(userId) || userContext.isAdmin();

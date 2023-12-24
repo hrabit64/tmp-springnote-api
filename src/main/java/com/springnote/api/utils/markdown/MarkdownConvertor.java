@@ -22,6 +22,7 @@ public class MarkdownConvertor {
         return renderer.render(document);
     }
 
+    
     public String convertToPlainText(String text, boolean isHtml){
         if(!isHtml){
             text = convertToHtml(text);

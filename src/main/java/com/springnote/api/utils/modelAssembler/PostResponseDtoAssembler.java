@@ -20,7 +20,7 @@ public class PostResponseDtoAssembler implements RepresentationModelAssembler<Po
     @Override
     public EntityModel<PostResponseDto> toModel(@Nonnull PostResponseDto entity) {
         return EntityModel.of(entity,
-                linkTo(methodOn(PostApiController.class).getPostById(entity.getId(),true)).withSelfRel(),
+                linkTo(methodOn(PostApiController.class).getPostById(entity.getId())).withSelfRel(),
                 linkTo(methodOn(PostApiController.class).deletePost(entity.getId())).withRel("delete"));
     }
 

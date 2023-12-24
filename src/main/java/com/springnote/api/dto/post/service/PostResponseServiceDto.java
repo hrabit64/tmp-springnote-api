@@ -24,9 +24,7 @@ public class PostResponseServiceDto {
     private SeriesResponseDto series;
     private String content;
 
-    private boolean isRendered;
-
-    public PostResponseServiceDto(Post post, String content, boolean isRendered){
+    public PostResponseServiceDto(Post post, String content){
         id = post.getId();
         title = post.getTitle();
         createdAt = post.getCreateAt();
@@ -34,7 +32,6 @@ public class PostResponseServiceDto {
         thumbnail = post.getThumbnail();
         series = new SeriesResponseDto(post.getSeries());
         this.content = content;
-        this.isRendered = isRendered;
     }
 
     public PostResponseControllerDto toControllerDto(){

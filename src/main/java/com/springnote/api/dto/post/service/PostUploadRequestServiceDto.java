@@ -15,7 +15,10 @@ import java.time.LocalDateTime;
 public class PostUploadRequestServiceDto {
 
     private String title;
+
+    //markdown 형식의 콘텐츠 본문
     private String content;
+    
     private String thumbnail;
     private String seriesName;
 
